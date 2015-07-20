@@ -23,5 +23,9 @@ typedef NS_ENUM(NSInteger, TransformType)
 
 @property (nonatomic,assign) TransformType  transformType ;
 
+- (void)updateInteractiveTransition:(CGFloat)percentComplete;
+- (void)cancelInteractiveTransition;
+- (void)finishInteractiveTransition;
+
 
 @end

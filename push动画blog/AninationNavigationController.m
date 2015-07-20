@@ -15,6 +15,9 @@
 @implementation AninationNavigationController
 
 
+
+
+
 -(void)pushViewController:(UIViewController *)viewController WithType:(TransformType )type Context:(id)context
 {
     self.navgationDelegate.context = context;
@@ -29,6 +32,28 @@
     self.navgationDelegate.transformType = type;
     return [self popViewControllerAnimated:YES];
 }
+
+-(void)setAnimationType:(TransformType)type Context:(id)context
+{
+    self.navgationDelegate.context = context;
+    self.navgationDelegate.transformType = type;
+}
+
+- (void)updateInteractiveTransition:(CGFloat)percentComplete
+{
+    [self.navgationDelegate updateInteractiveTransition:percentComplete];
+}
+- (void)cancelInteractiveTransition
+{
+    [self.navgationDelegate cancelInteractiveTransition];
+}
+
+- (void)finishInteractiveTransition
+{
+        [self.navgationDelegate finishInteractiveTransition];
+}
+
+
 
 -(instancetype)initWithRootViewController:(UIViewController *)rootViewController
 {

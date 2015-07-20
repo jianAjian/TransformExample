@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface CommonAnimator : NSObject<UIViewControllerAnimatedTransitioning>
+@interface CommonAnimator : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 
 @end

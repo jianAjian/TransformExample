@@ -10,7 +10,9 @@
 #import "AninationNavigationController.h"
 #import "SecondViewController.h"
 @interface FirstViewController ()
-
+{
+    BOOL touchDirection;
+}
 @end
 
 @implementation FirstViewController
@@ -19,24 +21,72 @@
     [super viewDidLoad];
     self.view.backgroundColor =[UIColor redColor];
     
-    // Do any additional setup after loading the view.
+    UIPanGestureRecognizer * pan =[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(paned:)];
+    
+    [self.view addGestureRecognizer:pan];
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+
+-(void)paned:(UIPanGestureRecognizer *)gestureRecognizer
 {
-    SecondViewController *secondVC =[[SecondViewController alloc]init];
-
     
-    UITouch * touch = [touches anyObject];
+    NSLog(@"%f",[gestureRecognizer velocityInView:self.navigationController.view].x);
     
-     CGPoint touchPoint =   [touch locationInView:self.view];
-
-    id obj = [NSValue valueWithCGPoint:touchPoint];
-
     AninationNavigationController * animaitonNav =(AninationNavigationController *)self.navigationController;
-    
-    [animaitonNav pushViewController:secondVC WithType:TransformType_cyclo Context:obj];
+
+    switch (gestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+         
+            touchDirection =([gestureRecognizer velocityInView:self.view].x >0);
+            
+            CGPoint translation =[gestureRecognizer  locationInView:self.view];
+            
+            id obj = [NSValue valueWithCGPoint:translation];
+            
+            SecondViewController *secondVC =[[SecondViewController alloc]init];
+            
+            [animaitonNav setAnimationType:TransformType_cyclo Context:obj];
+            
+            [animaitonNav pushViewController:secondVC animated:YES];
+            
+            break;
+        }
+        case UIGestureRecognizerStateChanged:
+        {
+            
+            CGPoint translation =[gestureRecognizer  translationInView:self.navigationController.view];
+            
+            CGFloat completionProgress =(fabs(-translation.x))/CGRectGetWidth(self.navigationController.view.bounds);
+            
+            [animaitonNav updateInteractiveTransition:completionProgress];
+            
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+        {
+            if(  ([gestureRecognizer velocityInView:self.navigationController.view].x<0) != touchDirection)
+            {
+                [animaitonNav finishInteractiveTransition];
+            }else
+            {
+                [animaitonNav cancelInteractiveTransition];
+            }
+            break;
+        }
+            
+        default:
+        {
+            [animaitonNav cancelInteractiveTransition];
+            break;
+        }
+    }
 }
+
+
+
+
+
 
 
 @end

@@ -93,11 +93,16 @@ static  NSString * const  PathKey = @"path";
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    [self.transitionContext completeTransition:YES];
-    
-    UIViewController * toViewController =[self.transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
-    toViewController.view.layer.mask = nil;
+
+    if (self.transitionContext) {
+        //动画 执行结束后  上下文是否要完成 的决定条件
+        // 上下文是非被取消
+        [self.transitionContext completeTransition:(![self.transitionContext transitionWasCancelled])];
+
+        UIViewController * toViewController =[self.transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+        
+        toViewController.view.layer.mask = nil;
+    }
 }
 
 
@@ -112,6 +117,7 @@ static  NSString * const  PathKey = @"path";
     _maskLayer =[CAShapeLayer new];
     return _maskLayer;
 }
+
 
 
 

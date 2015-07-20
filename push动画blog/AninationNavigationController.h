@@ -16,5 +16,11 @@
 
 -(UIViewController *)popViewControllerWithType:(TransformType)type Context:(id)context;
 
+-(void)setAnimationType:(TransformType)type Context:(id)context;
+
+- (void)updateInteractiveTransition:(CGFloat)percentComplete;
+- (void)cancelInteractiveTransition;
+- (void)finishInteractiveTransition;
+
 
 @end

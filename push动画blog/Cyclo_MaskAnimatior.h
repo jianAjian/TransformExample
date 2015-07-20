@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface Cyclo_MaskAnimatior : NSObject<UIViewControllerAnimatedTransitioning>
+@interface Cyclo_MaskAnimatior : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 
 
 +(Cyclo_MaskAnimatior *)animatiorWithBeginPosition:(CGPoint )beginPosition;
